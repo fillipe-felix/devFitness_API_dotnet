@@ -4,6 +4,9 @@ namespace DevFitness.API.Core.Entities
 {
     public class Meal : BaseEntity
     {
+        protected Meal()
+        {
+        }
         public Meal(string description, int calories, DateTime date, int userId) : base()
         {
             Description = description;
