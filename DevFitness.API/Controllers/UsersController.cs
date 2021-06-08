@@ -4,6 +4,7 @@ using DevFitness.API.Core.Entities;
 using DevFitness.API.Models.InputModels;
 using DevFitness.API.Models.ViewModels;
 using DevFitness.API.Persistence;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DevFitness.API.Controllers
@@ -21,6 +22,13 @@ namespace DevFitness.API.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Retornar detalhes de usuário
+        /// </summary>
+        /// <param name="id">Identificador de usuário</param>
+        /// <returns>Objeto de detalhe de usuários</returns>
+        /// <response code="404">Usuário não encontrado</response>
+        /// <response code="200">Usuário encontrado com sucesso</response>
         // api/users/1
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -38,8 +46,26 @@ namespace DevFitness.API.Controllers
             return Ok(userViewModel);
         }
 
+        /// <summary>
+        /// Cadastrar um usario
+        /// </summary>
+        /// <param name="inputModel">Objeto com dados de cadastro de usuario</param>
+        /// <remarks>
+        /// Requisição de Exemplo:
+        /// {
+        /// "fullName": "Fillipe",
+        /// "height": 1.70,
+        /// "weight": 56,
+        /// "birthDate": "1993-07-18 00:00:00"
+        /// }
+        /// </remarks>
+        /// <returns>Objeto recem-criado.</returns>
+        /// <response code"201">Objeto criado com sucesso</response>
+        /// <response code"400">Dados invalidos</response>
         // api/users
         [HttpPost]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public IActionResult Post([FromBody] CreateUserInputModel inputModel)
         {
             //var user = new User(inputModel.FullName, inputModel.Height, inputModel.Weight, inputModel.BirthDate);

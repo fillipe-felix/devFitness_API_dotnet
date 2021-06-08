@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using DevFitness.API.Persistence;
 using DevFitness.API.Profiles;
@@ -38,7 +40,22 @@ namespace DevFitness.API
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "DevFitness.API", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo 
+                    {
+                        Title = "DevFitness.API", 
+                        Version = "v1", 
+                        Contact = new OpenApiContact
+                        {
+                            Name = "Fillipe Soares",
+                            Email = "felipesoares_14@hotmail.com",
+                            Url = new Uri("https://github.com/fillipe-felix/devFitness_API_dotnet")
+                        }
+                        
+                    });
+
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
             });
         }
 
